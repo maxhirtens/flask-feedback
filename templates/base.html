@@ -13,13 +13,15 @@
   <body>
     <nav class="navbar bg-light">
       <a class="navbar-brand" href="/">Flask Feedback</a>
-      {% if user in session %}
-      <a href="">Logout</a>
+      {% if 'username' in session %}
+      <a>Welcome, {{session.username}}</a>
+      <a href="/logout">Logout</a>
       {% else %}
-      <a href="">Login</a>
+      <a href="/login">Login</a>
       {% endif %}
     </nav>
-
-    {% block content %} {% endblock %}
+    {% for msg in get_flashed_messages() %}
+    <div class="alert alert-info">{{msg}}</div>
+    {% endfor %} {% block content %} {% endblock %}
   </body>
 </html>

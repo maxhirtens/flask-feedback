@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <h1>You made it to the User Page</h1>
+  <p>Hi {{user.first_name}} {{user.last_name}}</p>
+  <p>Logged in as: {{user.username}}</p>
+  <h4>Your Feedback:</h4>
+  <ul>
+    {% for item in user.feedback %}
+    <li>
+      {{item.title}} - {{item.content}}
+      <button class="btn btn-info">Edit Feedback</button>
+      <button class="btn btn-warning">Delete Feedback</button>
+    </li>
+    {% endfor %}
+  </ul>
+  <form>
+    <button
+      formmethod="POST"
+      formaction="/users/{{user.username}}/delete"
+      class="btn btn-danger"
+    >
+      DELETE ME
+    </button>
+  </form>
+</div>
+{% endblock %}

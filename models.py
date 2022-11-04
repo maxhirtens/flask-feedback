@@ -19,6 +19,8 @@ class User(db.Model):
   first_name = db.Column(db.String(30), nullable=False)
   last_name = db.Column(db.String(30), nullable=False)
 
+  feedback = db.relationship('Feedback', backref='user', cascade='all, delete')
+
   @classmethod
   def register(cls, username, password, email, first_name, last_name):
     '''Register a user with hashed password.'''
@@ -26,3 +28,22 @@ class User(db.Model):
     hashed = bcrypt.generate_password_hash(password)
     hashed_utf8 = hashed.decode("utf8")
     return cls(username=username, password=hashed_utf8, email=email, first_name=first_name, last_name=last_name)
+
+  @classmethod
+  def authenticate(cls, username, password):
+    '''Authenticate a user with hashed password.'''
+    user = User.query.filter_by(username=username).first()
+    if user and bcrypt.check_password_hash(user.password, password):
+      return user
+    else:
+      return False
+
+class Feedback(db.Model):
+  '''Feedback class.'''
+
+  __tablename__ = 'feedback'
+
+  id = db.Column(db.Integer, primary_key=True, nullable=False)
+  title = db.Column(db.Text, nullable=False)
+  content = db.Column(db.String(100), nullable=False)
+  username = db.Column(db.String(30), db.ForeignKey('users.username'), nullable=False, )
