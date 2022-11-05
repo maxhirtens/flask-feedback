@@ -46,4 +46,4 @@ class Feedback(db.Model):
   id = db.Column(db.Integer, primary_key=True, nullable=False)
   title = db.Column(db.Text, nullable=False)
   content = db.Column(db.String(100), nullable=False)
-  username = db.Column(db.String(30), db.ForeignKey('users.username'), nullable=False, )
+  username = db.Column(db.String(30), db.ForeignKey('users.username'), nullable=False)
